@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Character } from '@app/component/character/interface/character';
 import { CharacterService } from '@app/shared/services/character.service';
 import { take } from "rxjs/operators";
@@ -29,22 +30,46 @@ export class CharacterListComponent implements OnInit {
   private hideScrollHeight = 200;
   private showScrollHeight = 500;
 
-  constructor(private characterService:CharacterService) { }
+  constructor(private characterService:CharacterService,
+    private route:ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.getDataFromService()
+    //this.getDataFromService()
+    this.getCharacter()
   }
 
 
   private getDataFromService():void{
-    this.characterService.searchCharacter(this.query, this.pageNum)
-    .pipe(
-      take(1)
-    ).subscribe((res:any) => {
-      const {info, results} = res;
-      this.characters = [...this.characters, ...results]
-      this.info = info
+    this.characterService
+    .searchCharacter(this.query, this.pageNum)
+    .pipe(take(1))
+    .subscribe((res:any) => {
+
+      if(res?.results?.length){
+        const {info, results} = res;
+        //Concateno la información que ya tenía "character" con la nuevos resultados
+        this.characters = [...this.characters, ...results]
+        this.info = info
+      }else{
+         this.characters = []
+      }
+
     })
   }
+
+
+  private getCharacter(){
+
+    this.route.queryParams
+    .pipe(take(1))
+    .subscribe((params:ParamMap) => {
+
+
+      //Recupero el valor escrito en el input
+      this.query = params['q'];
+      this.getDataFromService();
+    });
+  }
+
 
 }
