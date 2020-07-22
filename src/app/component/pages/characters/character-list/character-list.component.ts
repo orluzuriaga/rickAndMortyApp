@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, ParamMap, Router } from '@angular/router';
 import { Character } from '@app/component/character/interface/character';
 import { CharacterService } from '@app/shared/services/character.service';
-import { take } from "rxjs/operators";
+import { take, filter } from "rxjs/operators";
 
 type RequestInfo={
   next:string
@@ -30,8 +30,10 @@ export class CharacterListComponent implements OnInit {
   private hideScrollHeight = 200;
   private showScrollHeight = 500;
 
-  constructor(private characterService:CharacterService,
-    private route:ActivatedRoute) { }
+  constructor(
+    private characterService:CharacterService,
+    private route:ActivatedRoute,
+    private router:Router) { }
 
   ngOnInit(): void {
     //this.getDataFromService()
@@ -70,6 +72,23 @@ export class CharacterListComponent implements OnInit {
       this.getDataFromService();
     });
   }
+
+
+  /**
+   * Captura la URL cuando cambie
+   */
+
+   private onUrlChanged():void{
+
+    this.router.events
+    .pipe(
+       filter((event) => event instanceof NavigationEnd)
+    ).subscribe(()=>{
+      this.characters = [];
+      this.pageNum = 1;
+      this.getCharacter()
+    })
+   }
 
 
 }
