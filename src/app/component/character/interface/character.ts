@@ -4,6 +4,6 @@ export interface Character {
   image:string,
   species:string,
   gender:string,
-  create:string,
+  created:string,
   status:boolean
 }
