@@ -13,6 +13,8 @@ export class FormSearchComponent implements OnInit {
   ngOnInit(): void {
   }
 
+
+  //Redirigimos a la ruta '/character-list' + 'el valor capturado en el input'
   onSearch(value:string){
     if(value && value.length > 3){
       this.router.navigate(['/character-list'], {
