@@ -33,7 +33,9 @@ export class CharacterListComponent implements OnInit {
   constructor(
     private characterService:CharacterService,
     private route:ActivatedRoute,
-    private router:Router) { }
+    private router:Router) {
+      this.onUrlChanged();
+    }
 
   ngOnInit(): void {
     //this.getDataFromService()
@@ -42,6 +44,7 @@ export class CharacterListComponent implements OnInit {
 
 
   private getDataFromService():void{
+    
     this.characterService
     .searchCharacter(this.query, this.pageNum)
     .pipe(take(1))

@@ -18,6 +18,6 @@ export class CharacterService {
 
 
   getDetails(id:number){
-    this.httpClient.get<Character>(`${environment.baseUrlAPI}/${id}`)
+    return this.httpClient.get<Character>(`${environment.baseUrlAPI}/${id}`)
   }
 }
