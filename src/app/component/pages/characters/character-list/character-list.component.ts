@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, ParamMap, Router } from '@angular/router';
 import { Character } from '@app/component/character/interface/character';
 import { CharacterService } from '@app/shared/services/character.service';
 import { take, filter } from "rxjs/operators";
+import {DOCUMENT} from '@angular/common';
+import { RouterEvent, RouterModule } from '@angular/router';
 
 type RequestInfo={
   next:string
@@ -29,8 +31,10 @@ export class CharacterListComponent implements OnInit {
   private query:string
   private hideScrollHeight = 200;
   private showScrollHeight = 500;
+  public showGoUpButton:boolean;
 
   constructor(
+    @Inject(DOCUMENT) private document:Document,
     private characterService:CharacterService,
     private route:ActivatedRoute,
     private router:Router) {
@@ -44,7 +48,7 @@ export class CharacterListComponent implements OnInit {
 
 
   private getDataFromService():void{
-    
+
     this.characterService
     .searchCharacter(this.query, this.pageNum)
     .pipe(take(1))
@@ -89,9 +93,33 @@ export class CharacterListComponent implements OnInit {
     ).subscribe(()=>{
       this.characters = [];
       this.pageNum = 1;
-      this.getCharacter()
+      this.getCharacter();
     })
    }
 
+/*
+   @HostListener('windows:scroll', [])
+   onWindowsScroll():void{
+     const yoffeset = window.pageYOffset;
+     if((yoffeset || this.document.documentElement.scrollTop || this.document.body.scrollTop) > this.showScrollHeight){
+       this.showGoUpButton = true;
+     }else if(this.showGoUpButton && (yoffeset || this.document.documentElement.scrollTop || this.document.body.scrollTop) < this.showScrollHeight){
+        this.showGoUpButton = false;
+     }
+   }
+
+
+   onScrollDown(){
+      if(this.info.next){
+        this.pageNum++;
+        this.getDataFromService();
+      }
+   }
+
+   onScrollTop(){
+     this.document.body.scrollTop = 0;
+     this.document.documentElement.scrollTop = 0;
+   }
+*/
 
 }

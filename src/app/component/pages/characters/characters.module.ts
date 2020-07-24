@@ -3,17 +3,20 @@ import { CommonModule } from '@angular/common';
 import { CharacterDetailsComponent } from './character-details/character-details.component';
 import { CharacterListComponent } from './character-list/character-list.component';
 import { RouterEvent, RouterModule } from '@angular/router';
-import { CharacterComponent } from './character-card/character/character.component';
+
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { CharacterCardComponent } from './character-card/character-card.component';
 
 
-const MYCOMPONENTS = [CharacterDetailsComponent,CharacterListComponent]
+const MYCOMPONENTS = [CharacterDetailsComponent,CharacterListComponent,CharacterCardComponent]
 @NgModule({
-  declarations: [ ...MYCOMPONENTS, CharacterComponent],
+  declarations: [ ...MYCOMPONENTS],
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    InfiniteScrollModule
 
   ],
-  exports:[...MYCOMPONENTS,CharacterComponent]
+  exports:[...MYCOMPONENTS]
 })
 export class CharactersModule { }

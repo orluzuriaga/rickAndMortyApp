@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './shared/components/header/header.component';
 import { FormSearchComponent } from './shared/components/form-search/form-search.component';
 import { HttpClientModule } from '@angular/common/http';
+import { CharacterCardModule } from './component/pages/characters/character-card/character-card.module';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { HttpClientModule } from '@angular/common/http';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    CharacterCardModule
   ],
   providers: [],
   bootstrap: [AppComponent]
